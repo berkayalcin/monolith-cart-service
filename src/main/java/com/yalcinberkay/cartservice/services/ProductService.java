@@ -20,7 +20,7 @@ public class ProductService {
 
     public List<ProductDTO> getAll() {
         final var products = productRepository.findAll();
-        return products.stream().map(productEntityToDTOConverter::apply)
+        return products.stream().map(productEntityToDTOConverter)
                 .map(this::setCategory)
                 .collect(Collectors.toList());
     }
