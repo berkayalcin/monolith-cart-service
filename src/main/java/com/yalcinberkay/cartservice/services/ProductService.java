@@ -2,8 +2,8 @@ package com.yalcinberkay.cartservice.services;
 
 import com.yalcinberkay.cartservice.converters.ProductEntityToDTOConverter;
 import com.yalcinberkay.cartservice.entities.Product;
+import com.yalcinberkay.cartservice.exceptions.BusinessException;
 import com.yalcinberkay.cartservice.models.DTOs.ProductDTO;
-import com.yalcinberkay.cartservice.repositories.CategoryRepository;
 import com.yalcinberkay.cartservice.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,20 @@ public class ProductService {
         return products.stream().map(productEntityToDTOConverter::apply)
                 .map(this::setCategory)
                 .collect(Collectors.toList());
+    }
+
+    public ProductDTO getById(final Long id) {
+        final var product = get(id);
+        final var productDTO = productEntityToDTOConverter.apply(product);
+        return setCategory(productDTO);
+    }
+
+    final Product get(final Long id) {
+        final var product = productRepository.findById(id);
+        if (product.isEmpty()) {
+            throw new BusinessException("product.is.not.exists");
+        }
+        return product.get();
     }
 
     public ProductDTO setCategory(final ProductDTO product) {

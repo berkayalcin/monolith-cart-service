@@ -22,6 +22,8 @@ public class Product {
     private Double price;
     @Column(name = "category_id")
     private Long categoryId;
+
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private Status status = Status.ACTIVE;
 }
