@@ -4,7 +4,6 @@ import com.yalcinberkay.cartservice.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Builder
 @Getter
@@ -12,15 +11,21 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@SequenceGenerator(name = "seq_carts", sequenceName = "seq_carts", allocationSize = 1)
+@SequenceGenerator(name = "carts_id_seq", sequenceName = "carts_id_seq", allocationSize = 1)
+@Table(name = "carts")
 public class Cart {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_carts")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carts_id_seq")
     private Long id;
-    private Date createdAt;
-    private Date lastModifiedAt;
+    private Double amount;
+    private Double totalDiscount;
+    private Double totalCampaignDiscount;
+    private Double totalCouponDiscount;
+    private Double deliveryCost;
+    private String appliedCouponCode;
 
     @Builder.Default
+    @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
 }

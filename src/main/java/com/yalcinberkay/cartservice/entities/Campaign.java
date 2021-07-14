@@ -20,7 +20,7 @@ public class Campaign {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "campaigns_id_seq")
     private Long id;
-    private String categoryId;
+    private Long categoryId;
     private Double amount;
     private Integer minimumCartItem;
     @Enumerated(EnumType.STRING)

@@ -9,12 +9,12 @@ import java.util.Date;
 
 @Value
 @Builder
-public class CampaignDTO {
+public class CouponDTO {
     Long id;
-    Long categoryId;
     Double amount;
-    Integer minimumCartItem;
+    Double minimumCartAmount;
+    String code;
     DiscountType discountType;
     Date expiresAt;
-    Status status;
+    Status status = Status.ACTIVE;
 }
