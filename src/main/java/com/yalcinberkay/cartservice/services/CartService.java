@@ -73,7 +73,7 @@ public class CartService {
     }
 
     private CartItem buildCartItem(final CartItemAddRequest cartItemAddRequest) {
-        final var product = productService.get(cartItemAddRequest.getCartId());
+        final var product = productService.get(cartItemAddRequest.getProductId());
         final var discount = discountService.calculateCampaignDiscount(buildCalculateDiscountRequest(cartItemAddRequest)) * cartItemAddRequest.getQuantity();
         return CartItem.builder()
                 .cartId(cartItemAddRequest.getCartId())

@@ -49,10 +49,11 @@ public class DiscountService {
     public Double calculateCouponDiscount(final ApplyCouponDiscountRequest applyCouponDiscountRequest) {
         final var coupon = couponService.getByCode(applyCouponDiscountRequest.getCouponCode());
         final var cart = cartService.getById(applyCouponDiscountRequest.getCartId());
-        if (cart.getAmount() < coupon.getMinimumCartAmount()) {
+        final var campaignDiscountedAmount = cart.getAmount() - cart.getTotalCampaignDiscount();
+        if (campaignDiscountedAmount < coupon.getMinimumCartAmount()) {
             return 0.0;
         }
         final var discountCalculationService = DiscountCalculationServiceFactory.create(coupon.getDiscountType());
-        return discountCalculationService.calculate(coupon.getAmount(), cart.getAmount());
+        return discountCalculationService.calculate(coupon.getAmount(), campaignDiscountedAmount);
     }
 }
