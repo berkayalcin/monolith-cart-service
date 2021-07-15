@@ -27,6 +27,8 @@ public class CartService {
 
     @Lazy
     private final DiscountService discountService;
+    @Lazy
+    private final DeliveryService deliveryService;
     private final CartItemEntityToDTOConverter cartItemEntityToDTOConverter;
 
     private final CartRepository cartRepository;
@@ -114,9 +116,11 @@ public class CartService {
         final var cartItems = cartItemRepository.findAllByCartId(cart.getId());
         final Double totalCampaignDiscount = cartItems.stream().mapToDouble(CartItem::getDiscount).sum();
         final Double totalAmount = cartItems.stream().mapToDouble(CartItem::getAmount).sum();
-
+        final Double deliveryCost = deliveryService.calculateByCart(cart.getId());
         cart.setAmount(totalAmount);
         cart.setTotalCampaignDiscount(totalCampaignDiscount);
+        cart.setDeliveryCost(deliveryCost);
+
         cartRepository.save(cart);
     }
 
